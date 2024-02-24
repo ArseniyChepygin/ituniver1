@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <canvas id="canvas" width="600" height="600" onclick="onCanvasClick(event)"></canvas>
+    <script>
+        let canvas = document.getElementById('canvas');
+        let ctx = canvas.getContext('2d');
+
+        function onCanvasClick(e) {
+            let radius = Math.random() * 20 + 10; // Генерация случайного радиуса от 10 до 30
+            let x = e.clientX;
+            let y = 0; // Начальное положение шарика сверху
+
+            drawBall(x, y, radius);
+        }
+
+        function drawBall(x, y, radius) {
+            let dy = 2; // Скорость падения шарика
+            let color = getRandomColor();
+
+            function animate() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                ctx.fillStyle = color;
+                ctx.beginPath();
+                ctx.arc(x, y, radius, 0, Math.PI * 2);
+                ctx.fill();
+
+                if (y + radius < canvas.height) {
+                    y += dy;
+                    requestAnimationFrame(animate);
+                }
+            }
+
+            animate();
+        }
+
+        function getRandomColor() {
+            let letters = '0123456789ABCDEF';
+            let color = '#';
+            for (let i = 0; i < 6; i++) {
+                color += letters[Math.floor(Math.random() * 16)];
+            }
+            return color;
+        }
+    </script>
+</body>
+</html>
